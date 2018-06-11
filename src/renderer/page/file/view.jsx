@@ -47,6 +47,8 @@ type Props = {
 };
 
 class FilePage extends React.Component<Props> {
+  static MEDIA_TYPES = ['audio', '3D-file', 'e-book', 'comic-book'];
+
   constructor(props: Props) {
     super(props);
 
@@ -109,13 +111,14 @@ class FilePage extends React.Component<Props> {
     } = this.props;
 
     // File info
-    const { title, thumbnail } = metadata;
+    const { title, thumbnail, filename } = metadata;
     const isRewardContent = rewardedContentClaimIds.includes(claim.claim_id);
     const shouldObscureThumbnail = obscureNsfw && metadata.nsfw;
     const { height, channel_name: channelName, value } = claim;
-    const mediaType = Lbry.getMediaType(contentType);
+    // TODO: fix getMediaType logic (lbry-redux)
+    const mediaType = Lbry.getMediaType(null, filename) || Lbry.getMediaType(contentType);
     const isPlayable =
-      Object.values(player.mime).indexOf(contentType) !== -1 || mediaType === 'audio';
+      Object.values(player.mime).indexOf(contentType) !== -1 || FilePage.MEDIA_TYPES.indexOf(mediaType);
     const channelClaimId =
       value && value.publisherSignature && value.publisherSignature.certificateId;
     let subscriptionUri;
