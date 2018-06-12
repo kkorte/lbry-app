@@ -7,7 +7,6 @@ import FilePrice from 'component/filePrice';
 import FileDetails from 'component/fileDetails';
 import FileActions from 'component/fileActions';
 import UriIndicator from 'component/uriIndicator';
-import { FormField, FormRow } from 'component/common/form';
 import Icon from 'component/common/icon';
 import DateTime from 'component/dateTime';
 import * as icons from 'constants/icons';
@@ -20,6 +19,7 @@ import * as settings from 'constants/settings';
 import type { Claim } from 'types/claim';
 import type { Subscription } from 'types/subscription';
 import FileDownloadLink from 'component/fileDownloadLink';
+import Toggle from 'react-toggle';
 
 type Props = {
   claim: Claim,
@@ -158,6 +158,12 @@ class FilePage extends React.Component<Props> {
                     <Icon iconColor="red" tooltip="bottom" icon={icons.FEATURED} />
                   )}
                 </div>
+                <Toggle
+                  id="autoplay_toggle"
+                  defaultChecked={autoplay}
+                  onChange={this.onAutoplayChange}
+                />
+                <label htmlFor="autplay_toggle">Autoplay</label>
               </div>
               <span className="card__subtitle card__subtitle--file">
                 {__('Published on')}&nbsp;
@@ -194,15 +200,6 @@ class FilePage extends React.Component<Props> {
                   )}
                 </div>
               </div>
-              <FormRow alignRight>
-                <FormField
-                  type="checkbox"
-                  name="autoplay"
-                  onChange={this.onAutoplayChange}
-                  checked={autoplay}
-                  postfix={__('Autoplay')}
-                />
-              </FormRow>
             </div>
 
             <div className="card__content">
